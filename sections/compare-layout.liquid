@@ -1,0 +1,187 @@
+{%- assign listSearch = search.terms | split: ',' -%} 
+{%- assign listKey = search.terms | split: '_' -%} 
+{%- assign sizeKey = listKey | size -%} 
+{%- assign key = listKey | slice: 1,sizeKey -%} 
+
+
+{%- assign size = search.terms | split: ',' | size | minus: 1 -%} 
+{%- assign listItems = listSearch | slice: 0,size -%} 
+{%- assign noProducts = true -%} 
+{%- capture compareProperties -%} 
+
+{%- for p in listItems -%} 
+{%- assign product = all_products[p] -%} 
+{%- if product == blank -%}
+{%- continue -%}{%- endif -%} {%- assign noProducts = false -%} 
+{%- for cf in
+product.metafields.arena_cp -%}|{{- cf.first -}}
+{%- endfor -%} 
+{%- endfor -%} 
+{%- endcapture -%} 
+{%- assign compareProperties = compareProperties | remove_first: '|' | split: '|' | uniq -%}
+
+
+
+{% for item in shop.metafields.arena.wl_cp_settings.compare_settings.compare_options2  %}
+	{% if item.key == key[0] %}
+    {%- assign keyCollection = forloop.index0 -%} 
+    {% break %}
+    {% endif %}
+{%- endfor -%}     
+
+
+<div class="">
+
+    {%- if noProducts -%}
+    <p>No product to compare</p>
+    {%- else -%} {%- capture listProducts -%}
+    <div class="row">
+        {%- for p in listItems -%} {%- assign product = all_products[p] -%} {%- if product == blank
+        -%}{%- continue -%}{%- endif -%}
+
+        <div class="col-6">
+            <ul>
+                <li>
+                    <a href="{{ product.url }}">{{ product.title }}</a>
+                </li>
+                <li>{{ product.price | money }}</li>
+
+                {%- assign metafield = product.metafields | map: 'arena' -%} {%- for cf in
+                compareProperties -%} {%- assign arena = product.metafields.arena_cp[cf] -%}
+                <li>{{ arena | escape }}</li>
+                {%- endfor -%}
+            </ul>
+        </div>
+        {%- endfor -%}
+    </div>
+    {%- endcapture -%} {%- comment -%}-------------------------------
+    <div class="container">
+        <div class="row">
+            <div class="col-3">
+                <div class="compare-properties">
+                    <ul>
+                        <li>Title</li>
+                        <li>Price</li>
+                        {%- for cf in compareProperties -%}
+                        <li>{{ cf }}</li>
+                        {%- endfor -%}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-9">
+                <div class="compare-items">{{ listProducts }}</div>
+            </div>
+        </div>
+    </div>
+    {%- endcomment-%} {%- comment -%} {%- assign compareProperties = 'Title,Price' | split: ',' |
+    concat: compareProperties -%} {%- endcomment-%}
+    <div class="product-comparison-template-wrapper" id="product-compare">
+        <table class="table table-bordered product_comparison_template">
+         
+            <tbody>
+                <tr>
+                    <td class="heading-col feature-availability">Product</td>
+                    {%- for p in listItems -%} {%- assign product = all_products[p] -%} {%- if
+                    product == blank -%}{%- continue -%}{%- endif -%}
+                    <td class="product-col comparison_availability product-{{ product.id }}">
+                        <div class="comparison_product">
+                            <div class="product-info">
+                                <div class="remove">
+                                    {% render 'arn_wl_cp_buttons', type: 'cp_remove_btn',
+                                    product_handle: product.handle %}
+                                </div>
+                                <div class="wishlist">
+                                    {% render 'arn_wl_cp_buttons', type: 'wl_add_btn',
+                                    product_handle: product.handle %}
+                                </div>
+                                <div class="product-image-block">
+                                    <a
+                                        class="product_image"
+                                        href="{{ product.url }}"
+                                        title="{{ product.title }}"
+                                    >
+                                        <img
+                                            class="img-responsive cmp-product-image"
+                                            src="{{ product | img_url }}"
+                                            alt="{{ product.title }}"
+                                        />
+                                    </a>
+                                    <div class="label-box">
+                                        {{ product.sale_label }} {{ product.new_label }}
+                                    </div>
+                                </div>
+                                <h5 class="product-name">
+                                    <a
+                                        class="product-title"
+                                        href="{{ product.url }}"
+                                        title="{{ product.title }}"
+                                        >{{ product.title }}</a
+                                    >
+                                </h5>
+                                <div class="product-price">
+                                    <span class="price">{{
+                                        product.selected_or_first_available_variant.price | money
+                                    }}</span>
+                                </div>
+                            </div>
+                            <div class="comparison_product_infos">
+                                <div class="clearfix">
+                                    <div class="button-container">
+                                        <a
+                                            class="button lnk_view btn view-btn"
+                                            href="{{ product.url }}"
+                                            title="View Detail"
+                                        >
+                                            <span>View Detail</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    {%- endfor -%}
+                </tr>
+                {% for item in shop.metafields.arena.wl_cp_settings.compare_settings.compare_options2[keyCollection].data
+                %} {%- for cf in compareProperties -%} {% if item == cf %}
+                <tr>
+                     <td class="heading-col feature-availability">
+                      {%- assign option = cf | split: "__" | first -%} 
+                        <strong>{{ option | replace: "_", " " }}</strong>
+                    </td>
+                    {%- for p in listItems -%} {%- assign product = all_products[p] -%} {%- if
+                    product == blank -%}{%- continue -%}{%- endif -%}
+
+                    <td class="product-col comparison_availability product-{{ product.id }}">
+                        {%- case cf -%} {%- when 'Title' -%}{{ product.title }} {%- when 'Price'
+                        -%}{{ product.selected_or_first_available_variant.price | money }}
+                        {%- else -%} {%- assign arena = product.metafields.arena_cp[cf] -%}
+                        {{- arena | escape -}}
+                        {%- endcase -%}
+                    </td>
+                    {%- endfor -%}
+                </tr>
+                {% endif %} {% endfor %}{%- endfor -%}
+            </tbody>
+        </table>
+
+    </div>
+
+    {%- comment -%}------------------------------- {%- for cf in compareProperties -%}
+    <div class="row" style="border-bottom: 1px solid #888; margin-top: 15px">
+        <div class="col-4">{{ cf }}</div>
+
+        {%- for p in listItems -%} {%- assign product = all_products[p] -%} {%- if product == blank
+        -%}{%- continue -%}{%- endif -%}
+
+        <div class="col-4">
+            {%- case cf -%} {%- when 'Title' -%}{{ product.title }} {%- when 'Price' -%}{{
+                product.selected_or_first_available_variant.price | money
+            }}
+            {%- else -%} {%- assign arena = product.metafields.arena[cf] -%}
+            {{- arena | escape -}}
+            {%- endcase -%}
+        </div>
+        {%- endfor -%}
+    </div>
+    {%- endfor -%} {%- endcomment-%} {%- endif -%}
+</div>
