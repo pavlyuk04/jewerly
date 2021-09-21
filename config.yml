@@ -1,0 +1,9 @@
+development:
+  password: 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
+  theme_id: '127122276518'
+  store: mkdr-store.myshopify.com
+  ignore_files:
+    - config/settings_data.json
+    - /\.(txt|gif|bat)$/
+    - '*.liquid___jb_tmp___'
+    - '*.liquid___jb_old___'
