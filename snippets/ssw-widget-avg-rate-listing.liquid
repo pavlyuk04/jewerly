@@ -1,0 +1,85 @@
+{% assign ssw_manual_uninstall = shop.metafields.ssw['manual_uninstall'] | plus: 0 %}
+{% assign ssw_script_tags_allowed = shop.metafields.ssw['script_tags_allowed'] | plus: 0 %}
+{% if content_for_header contains 'ssw-empty.js' or ssw_manual_uninstall == 1 or ssw_script_tags_allowed != 1 %}
+{% assign ssw_review_enabled = 1 %}
+{% if shop.metafields.ssw['review_enabled'] %}
+  {% assign ssw_review_enabled = shop.metafields.ssw['review_enabled'] | plus: 0 %}
+{% endif %}
+{% if ssw_review_enabled == 1 %}
+  {% assign ssw_count_rate = 0 %}
+  {% assign ssw_avg_rate = 0 %}
+  {% assign ssw_rate_data_key = 'review' %}
+  {% assign ssw_unite_reviews = 0 %}
+  {% if shop.metafields.ssw['unite_reviews'] %}
+    {% assign ssw_unite_reviews = shop.metafields.ssw['unite_reviews'] | plus: 0 %}
+  {% endif %}
+  {% if ssw_unite_reviews == 1 %}
+    {% if shop.metafields.ssw['unite_product_ids'] %}
+      {% assign ssw_unite_product_ids = shop.metafields.ssw['unite_product_ids'] | split: ',' %}
+      {% assign unite_product_id = product.id | downcase %}
+      {% if ssw_unite_product_ids contains unite_product_id %}
+        {% assign ssw_rate_data_key = 'unite_review' %}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+  {% if product.metafields.ssw[ssw_rate_data_key] %}
+    {% assign ssw_count_rate = product.metafields.ssw[ssw_rate_data_key].count | plus: 0 %}
+    {% assign ssw_avg_rate = product.metafields.ssw[ssw_rate_data_key].avg | plus: 0 %}
+    {% assign ssw_product_id = product.id %}
+    {% if product.metafields.ssw[ssw_rate_data_key].product_id %}
+      {% assign ssw_product_id = product.metafields.ssw[ssw_rate_data_key].product_id | plus: 0 %}
+    {% endif %}
+    {% if ssw_product_id != product.id  %}
+      {% assign ssw_count_rate  = 0 %}
+      {% assign ssw_avg_rate = 0 %}
+    {% endif %}
+  {% endif %}
+
+  <div class="ssw-widget-avg-rate-listing ssw-stars ssw-stars-large {% if ssw_count_rate == 0 %}ssw-hide{% endif %}" data-rate="{{ ssw_avg_rate }}">
+    {% assign ssw_review_star_color = '#000' %}
+    {% if shop.metafields.ssw.css_variables.ssw_lb_hover_bg_color_star %}
+      {% assign ssw_review_star_color = shop.metafields.ssw.css_variables.ssw_lb_hover_bg_color_star %}
+    {% else %}
+      {% assign ssw_review_star_color = shop.metafields.ssw.css_variables.gw_main_color %}
+    {% endif %}
+    {% assign ssw_j = ssw_avg_rate | floor %}
+    {% for i in (1..ssw_j) %}
+      <svg class="ssw-icon-star" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.6301 5.77891L10.643 5.43475C10.4768 5.41563 10.3475 5.32004 10.2736 5.16708L8.38961 0.272455C8.24184 -0.0908182 7.74314 -0.0908182 7.61384 0.272455L5.72984 5.16708C5.67443 5.32004 5.52667 5.43475 5.36043 5.43475L0.391844 5.77891C0.0224321 5.79803 -0.143803 6.29514 0.151726 6.54369L3.97514 9.90875C4.10443 10.0235 4.14137 10.1955 4.10443 10.3485L2.84843 15.4534C2.75608 15.8358 3.16243 16.1417 3.47643 15.9314L7.76161 13.1208C7.8909 13.0252 8.07561 13.0252 8.2049 13.1208L12.4901 15.9314C12.8041 16.1417 13.2104 15.8358 13.1181 15.4534L11.8621 10.3485C11.8251 10.1955 11.8806 10.0235 11.9914 9.90875L15.8148 6.54369C16.1473 6.29514 15.9995 5.79803 15.6301 5.77891Z" fill="{{ ssw_review_star_color }}"/>
+      </svg>
+    {% endfor %}
+    {% assign ssw_rate_last_star = 5 | minus:ssw_avg_rate %}
+    {% assign ssw_y = ssw_rate_last_star | floor %}
+    {% assign ssw_x = ssw_avg_rate | minus:ssw_j %}
+    {% if ssw_x > 0.74 %}
+      <svg class="ssw-icon-star" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.6301 5.77891L10.643 5.43475C10.4768 5.41563 10.3475 5.32004 10.2736 5.16708L8.38961 0.272455C8.24184 -0.0908182 7.74314 -0.0908182 7.61384 0.272455L5.72984 5.16708C5.67443 5.32004 5.52667 5.43475 5.36043 5.43475L0.391844 5.77891C0.0224321 5.79803 -0.143803 6.29514 0.151726 6.54369L3.97514 9.90875C4.10443 10.0235 4.14137 10.1955 4.10443 10.3485L2.84843 15.4534C2.75608 15.8358 3.16243 16.1417 3.47643 15.9314L7.76161 13.1208C7.8909 13.0252 8.07561 13.0252 8.2049 13.1208L12.4901 15.9314C12.8041 16.1417 13.2104 15.8358 13.1181 15.4534L11.8621 10.3485C11.8251 10.1955 11.8806 10.0235 11.9914 9.90875L15.8148 6.54369C16.1473 6.29514 15.9995 5.79803 15.6301 5.77891Z" fill="{{ ssw_review_star_color }}"/>
+      </svg>
+    {% else %}
+      {% if ssw_x > 0.24 %}
+        <svg class="ssw-icon-star-half-alt"  width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0)">
+            <path d="M15.6129 6.02831L15.6129 6.02835L15.6172 6.02857C15.6781 6.03173 15.726 6.07093 15.7439 6.13896C15.7611 6.20431 15.7448 6.28389 15.6651 6.34346L15.6571 6.34944L15.6496 6.35603L11.8262 9.72108L11.8186 9.72777L11.8116 9.73505C11.6488 9.90356 11.5596 10.1611 11.6191 10.4072L11.6193 10.4082L12.8751 15.5121C12.8751 15.5123 12.8751 15.5124 12.8752 15.5126C12.896 15.5994 12.8618 15.6728 12.8055 15.7155C12.75 15.7575 12.6864 15.7621 12.6292 15.7237L12.6272 15.7224L8.3471 12.9151C8.13208 12.7605 7.83443 12.7605 7.61941 12.9151L3.33932 15.7224L3.33931 15.7224L3.33731 15.7237C3.28007 15.7621 3.21656 15.7575 3.16105 15.7155C3.10471 15.6728 3.07053 15.5994 3.09134 15.5126C3.09138 15.5124 3.09141 15.5123 3.09145 15.5121L4.3472 10.4082L4.34745 10.4072C4.40244 10.1795 4.3504 9.90749 4.14106 9.72174L4.14031 9.72108L0.316896 6.35603L0.316937 6.35598L0.312642 6.35237C0.25396 6.30301 0.235924 6.22789 0.260398 6.15189C0.285302 6.07456 0.34178 6.03183 0.404766 6.02857L0.404768 6.02861L0.409119 6.02831L5.37018 5.68468C5.64633 5.68036 5.8765 5.49295 5.96394 5.25486L7.84716 0.36226L7.84723 0.362289L7.84937 0.356282C7.8758 0.282035 7.93277 0.25 7.9948 0.25C8.05756 0.25 8.12356 0.283809 8.15728 0.364827L10.0403 5.25688L10.044 5.26652L10.0485 5.27582C10.1577 5.5018 10.3587 5.6537 10.6145 5.68312L10.6144 5.68338L10.6258 5.68416L15.6129 6.02831Z" stroke="{{ ssw_review_star_color }}" stroke-width="0.5"/>
+            <path d="M5.9759 5.25178L7.75 0.650935V12.8546C7.72038 12.868 7.69509 12.8812 7.67551 12.8914C7.67109 12.8937 7.66696 12.8959 7.66314 12.8979L7.65171 12.9038L7.64095 12.9108L3.34679 15.7223L3.34678 15.7222L3.34477 15.7236C3.2871 15.7621 3.22301 15.7575 3.16719 15.7153C3.1106 15.6725 3.07649 15.5992 3.09729 15.5125C3.09733 15.5123 3.09736 15.5122 3.0974 15.5121L4.35578 10.4066L4.35603 10.4056C4.41118 10.1777 4.35894 9.90551 4.14923 9.71977L4.14848 9.71911L0.317047 6.35305L0.317088 6.353L0.312791 6.3494C0.253901 6.29996 0.235936 6.2249 0.260405 6.14905C0.285308 6.07186 0.341932 6.02881 0.405565 6.02552L0.405567 6.02556L0.40991 6.02526L5.3814 5.68152C5.65763 5.67722 5.88822 5.49007 5.9759 5.25178Z" fill="{{ ssw_review_star_color }}" stroke="{{ ssw_review_star_color }}" stroke-width="0.5"/>
+          </g>
+          <defs>
+            <clipPath id="clip0">
+              <rect width="16" height="16" fill="white"/>
+            </clipPath>
+          </defs>
+        </svg>
+      {% else %}
+        {% if ssw_x > 0 %}
+          {% assign ssw_y = ssw_y | plus:1 %}
+        {% endif %}
+      {% endif %}
+    {% endif %}
+    {% for i in (1..ssw_y) %}
+      <svg class="ssw-icon-star-empty" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.6129 6.02831L15.6129 6.02835L15.6172 6.02857C15.6781 6.03173 15.726 6.07093 15.7439 6.13896C15.7611 6.20431 15.7448 6.28389 15.6651 6.34346L15.6571 6.34944L15.6496 6.35603L11.8262 9.72108L11.8186 9.72777L11.8116 9.73505C11.6488 9.90356 11.5596 10.1611 11.6191 10.4072L11.6193 10.4082L12.8751 15.5121C12.8751 15.5123 12.8751 15.5124 12.8752 15.5126C12.896 15.5994 12.8618 15.6728 12.8055 15.7155C12.75 15.7575 12.6864 15.7621 12.6292 15.7237L12.6272 15.7224L8.3471 12.9151C8.13208 12.7605 7.83443 12.7605 7.61941 12.9151L3.33932 15.7224L3.33931 15.7224L3.33731 15.7237C3.28007 15.7621 3.21656 15.7575 3.16105 15.7155C3.10471 15.6728 3.07053 15.5994 3.09134 15.5126C3.09138 15.5124 3.09141 15.5123 3.09145 15.5121L4.3472 10.4082L4.34745 10.4072C4.40244 10.1795 4.3504 9.90749 4.14106 9.72174L4.14031 9.72108L0.316896 6.35603L0.316937 6.35598L0.312642 6.35237C0.25396 6.30301 0.235924 6.22789 0.260398 6.15189C0.285302 6.07456 0.34178 6.03183 0.404766 6.02857L0.404768 6.02861L0.409119 6.02831L5.37018 5.68468C5.64633 5.68036 5.8765 5.49295 5.96394 5.25486L7.84716 0.36226L7.84723 0.362289L7.84937 0.356282C7.8758 0.282035 7.93277 0.25 7.9948 0.25C8.05756 0.25 8.12356 0.283809 8.15728 0.364827L10.0403 5.25688L10.044 5.26652L10.0485 5.27582C10.1577 5.5018 10.3587 5.6537 10.6145 5.68312L10.6144 5.68338L10.6258 5.68416L15.6129 6.02831Z" stroke="{{ ssw_review_star_color }}" stroke-width="0.5"/>
+      </svg>
+    {% endfor %}
+    <span class="ssw-review-count"> ({{ssw_count_rate}}) </span>
+  </div>
+{% endif %}
+{% endif %}

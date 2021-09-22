@@ -1,0 +1,11 @@
+
+{% capture the_snippet_fave_icon %}{% render 'ssw-widget-faveicon' with product.id %}{% endcapture %}
+{% unless the_snippet_fave_icon contains 'Liquid error' %}
+{{ the_snippet_fave_icon }}
+{% endunless %}    
+
+
+{% capture the_snippet_review_avg %}{% render 'ssw-widget-avg-rate-listing', product: product %}{% endcapture %}
+{% unless the_snippet_review_avg contains 'Liquid error' %}
+{{ the_snippet_review_avg }}
+{% endunless %}    

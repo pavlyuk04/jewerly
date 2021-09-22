@@ -1,0 +1,268 @@
+.ssw-faveiticon .faves-count {
+  display: none;
+}
+#ssw-fave-page-side-bar .ssw-fave-product-avatar{
+  display: block;
+}
+
+.ssw-faveicon-custom .ssw-faveiticon {
+  width: 36px;
+  height: 36px;
+  box-shadow: 0 0 1px rgb(0 0 0 / 20%);
+  border-radius: 50%;
+}
+
+.ssw-faveicon-custom .ssw-faveiticon .ssw-fave-icon {
+  width: inherit;
+  height: inherit;
+}
+
+.ssw-faveicon-custom .ssw-faveiticon .ssw-icon-heart-o:before,
+.ssw-faveicon-custom .ssw-faveiticon .ssw-icon-heart:before {
+  padding-top: 9px;
+  padding-left: 4px;
+} 
+
+
+.ssw-modal-content input:not(.btn) {
+  padding: 8px 16px; 
+  border: 1px solid silver;
+  outline: none; 
+}
+
+.ssw-alert.ssw-alert-warning {
+  text-align: center;
+}
+
+#widget-fave-html {
+  width: 100%;
+  margin-top: 10px;
+}
+
+#widget-fave-html .ssw-fave-btn {
+  width: 100%;
+  line-height: 41.2px;
+}
+
+#widget-fave-html .ssw-fave-btn-content {
+  width: 100%;
+  background: #fff;
+  color: #111111;
+  border-radius: var(--buttonRadius);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .3em;
+  font-size: max(calc(var(--typeBaseSize) - 4px), 13px);
+  transition: all .3s ease;
+}
+
+#widget-fave-html .ssw-fave-btn:hover .ssw-fave-btn-content,   /* pages/product(fave button) hover */
+#widget-fave-html .ssw-fave-btn:hover .ssw-fave-btn-counter,
+#widget-fave-html .ssw-fave-btn:hover .ssw-fave-btn-counter:before { 
+  background: var(--colorBtnPrimaryLight);
+  color: var(--colorBtnPrimaryText);
+}
+
+#widget-fave-html .ssw-fave-btn:hover .ssw-fave-btn-content i:before {
+  color: var(--colorBtnPrimaryText);
+}
+
+#widget-fave-html .ssw-icon-heart-o:before,
+#widget-fave-html .ssw-icon-heart:before {
+  color: #111111;
+}
+
+#widget-fave-html .ssw-fave-btn-counter {
+  border-radius: var(--buttonRadius);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .3em;
+  font-size: max(calc(var(--typeBaseSize) - 4px), 13px);
+}
+
+#widget-fave-html .ssw-fave-btn-counter, 
+#widget-fave-html .ssw-fave-btn-counter:before {
+  color: #fff;
+  background: #111111;
+  border-color: #111111;
+  transition: all .3s ease;
+}
+
+.ssw-span12 #add_recommend,
+#ssw-review-simple-html .ssw-control-group input.btn {
+  background-color: black;
+  color: white;
+}
+
+.ssw-span12 #add_recommend:hover,
+#ssw-review-simple-html .ssw-control-group input.btn:hover {
+
+}
+
+.ssw-modal-body #accept-terms-form .ssw-control-group #ssw-create-account-button:hover, /* SUBSCRIBE FOR NEWSLETTER*/
+.ssw-modal-body #accept-terms-form .ssw-control-group #ssw-cancel-account-button:hover,
+#ssw-simple-add-review-form .ssw-control-group.ssw-text-right input.btn.button:hover,
+.ssw-span12 .review-wrapp-btn .ssw-add-recommend a#add_recommend:hover {
+  background-color: #000 !important;
+  opacity: .7;
+  color: #fff;
+}
+
+.ssw-simple-connect {
+  display: flex;
+}
+
+.ssw-fave-product-info .ssw-fave-product-price{
+  display:block;
+}
+
+.ssw-faveicon-custom .ssw-faveiticon .ssw-fave-icon{
+  color:#111;
+}
+
+.ssw-fave-item{
+  cursor:pointer;
+}
+
+.ssw-fave-item:hover .ssw-fave-product-actions>a{
+  opacity:1;
+  color:#000;
+}
+
+.ssw-fave-list-container {
+  display: flex !important;
+  flex-wrap: wrap;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+
+
+@media (max-width: 801px) {
+  .ssw-simple-connect {
+    flex-direction: column;
+  }
+}
+
+.ssw-custom-checkbox, .ssw-custom-radio {
+  padding-top: 10px;
+}
+
+.ssw-modal-body #accept-terms-form .ssw-control-group #ssw-create-account-button, /* SUBSCRIBE FOR NEWSLETTER*/
+.ssw-modal-body #accept-terms-form .ssw-control-group #ssw-cancel-account-button {
+  background: #000;
+  color: #fff;
+  border: none;
+}
+
+.ssw-question-options-wrapper .ssw-question-flex .ssw-custom-form-text:before {
+  top: 45% !important;
+}
+
+#ssw-review-widget-content #ssw-add-site-review-form .ssw-control-group input.btn { /* POST BUTTON */
+  color: #fff;
+}
+
+#ssw-fave-side-bar #ssw-fave-lists-wrapper .ssw-fave-list-container .ssw-fave-item .ssw-fave-product-info { /*PRODUCT-INFO*/
+  width: 190px;
+}
+
+.ssw-fave-list-header { /* Product z-index */
+  z-index: unset;
+}
+
+#ssw-reviews-page-wrapper .ssw-span12 #ssw-create-review-form .ssw-control-group input.btn { /* POST BUTTON */
+  color: #fff;
+}
+
+#ssw-page {
+  padding: 0 15px;
+}
+
+.ssw-link-fave-menu {
+  position: relative;
+  font-size: 20px;
+  vertical-align: middle;
+}
+
+.ssw-link-fave-menu i:before {
+  content: "\e819";
+}
+
+.ssw-counter-fave-menu {
+  border-color: #111111;
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  right: 3px;
+  background-color: #111111!important;
+  font-family: sans-serif;
+  font-weight: 700;
+  width: 15px;
+  font-size: 10px;
+  border-radius: 50%;
+  color: #fff;
+  height: 15px;
+} 
+
+#ssw-review-widget-content .ssw-reviews-wlist-top .ssw-round-star-row a.ssw-add-review {
+  transition: all .3s ease;
+}
+
+#ssw-review-widget-content .ssw-reviews-wlist-top .ssw-round-star-row a.ssw-add-review:hover { /*ADD A Review BUTTON */
+  background: none;
+  transition-delay: 0;
+}
+
+.ssw-product-btns .ssw-faveappbtn-counter .ssw-fave-btn-content,             
+.ssw-product-btns .ssw-faveappbtn-counter .ssw-fave-btn-counter,
+.ssw-product-btns .ssw-faveappbtn-counter .ssw-fave-btn-counter:before {
+  border-color: #111111;
+  color: #111111;
+  text-transform: uppercase;
+}
+
+input[type=checkbox].ssw-question-option-input+label.ssw-question-option-label:after, input[type=radio].ssw-question-option-input+label.ssw-question-option-label:after {
+  top: 45%;
+}
+
+
+@media screen and (max-width: 480px) {
+  .ssw-nav>li:first-of-type>a {
+    padding: 8px 12px; 
+  }
+}
+
+.ssw-fave-list-container {
+  display: inherit;
+}
+
+/* 5/08 */
+
+form#create_customer .ssw-accept-marketing {
+  display: none;
+}
+
+.ssw-modal-body .ssw-inline label[for=accept_marketing],
+.ssw-modal-body .ssw-inline #accept_marketing {
+  display: none;
+}
+
+.ssw-faveiticon {
+  right: 1px;
+  top: 1px;
+}
+
+#ssw-fave-side-button i {
+  background-color: #111;
+}
+
+#ssw-fave-page-side-bar .ssw-fave-product-title {
+  white-space: normal;
+}
+
+@media all and (max-width: 360px) {
+  #widget-fave-html .ssw-fave-btn {
+    line-height: 23.2px;
+  }
+}
